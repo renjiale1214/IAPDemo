@@ -132,6 +132,9 @@
                 [self completeTransaction:transaction];//是因为这里要求go tocompleteTransaction:的
                 NSLog(@"=======交易完成=======");
                 UIAlertView *alertPurchased = [[UIAlertView alloc] initWithTitle:@"交易成功" message:@"您已经成功购买了本产品" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
+                //购买成功之后需要向后台验证收据，从transaction的transactionReceipt属性中得到收据的数据，并以base64方式编码。
+                //创建JSON对象，字典格式，单键值对，键名为"receipt-data"， 值为上一步编码后的数据。效果为: { "receipt-data" : "(编码后的数据)" } 
+                //这里后来加了delegate，在对应的ViewController里完成。其中的RD_ASIHTTPRequest是自定义类，里边有base64解码的方法：[self.delegate receiveReceiptData:[RD_ASIHTTPRequest base64forData:transaction.transactionReceipt]];
                 [alertPurchased show];
             }
                 break;
